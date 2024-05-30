@@ -327,6 +327,7 @@ proc setRow(stmt: PStmt, r: var Row, cols: cint) =
     let cb = column_bytes(stmt, col)
     setLen(r[col], cb) # set capacity
     if column_type(stmt, col) == SQLITE_BLOB:
+      if cb == 0: continue 
       copyMem(addr(r[col][0]), column_blob(stmt, col), cb)
     else:
       setLen(r[col], 0)
